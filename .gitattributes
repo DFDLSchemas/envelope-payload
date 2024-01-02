@@ -1,0 +1,5 @@
+src/test/resources/** text=false
+src/test/resources/**/*.tdml text=true
+src/test/resources/**/*.xsd text=true
+src/test/resources/**/*.xml text=true
+src/test/scala/**/*.scala text=true
