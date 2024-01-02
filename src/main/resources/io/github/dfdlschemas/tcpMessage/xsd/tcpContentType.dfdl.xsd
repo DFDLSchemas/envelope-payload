@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  targetNamespace="urn:io.github.dfdlschemas.tcpMessage"
+  xmlns:tcpHdr="urn:io.github.dfdlschemas.tcpMessage"
+
+  xmlns:ep="urn:io.github.dfdlschemas.envelopepayload"
+
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+  xmlns:fn="http://www.w3.org/2005/xpath-functions"
+>
+
+  <import namespace="urn:io.github.dfdlschemas.envelopepayload"
+          schemaLocation="/io/github/dfdlschemas/envelopepayload/xsd/envelopePayload.dfdl.xsd"/>
+
+  <include schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/baseFormat.dfdl.xsd" />
+
+  <annotation>
+    <appinfo source="http://www.ogf.org/dfdl/">
+      <dfdl:format ref="tcpHdr:baseFormat"/>
+    </appinfo>
+  </annotation>
+
+  <!--
+  This is in a namespace/package owned by the tcpMessage schema, so we
+  want to be putting as little into that namespace as possible.
+  Hence this type just redirects to a group in our own namespace.
+
+  The component schema for tcpMessage requires us to define this complex type.
+  -->
+  <complexType name="tcpContentType">
+    <group ref="ep:payloadContentGroup"/>
+  </complexType>
+
+</schema>
