@@ -11,7 +11,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   defaultRoundTrip="onePass">
 
-  <parserTestCase name="test_envelopepayload_01" root="message" model="io/github/dfdlschemas/tcpMessage/xsd/tcpMessage.dfdl.xsd">
+  <parserTestCase name="test_envelopepayload_01"
+                  model="/dfdl-envelope-payload.bin">
     <document>
       <documentPart type="file">test_01.dat</documentPart>
     </document>
@@ -20,7 +21,8 @@
     </infoset>
   </parserTestCase>
 
-  <parserTestCase name="test_envelopepayload_02" root="message" model="io/github/dfdlschemas/tcpMessage/xsd/tcpMessage.dfdl.xsd">
+  <parserTestCase name="test_envelopepayload_02"
+                  model="/dfdl-envelope-payload.bin">
     <document>
       <documentPart type="file">test_02.dat</documentPart>
     </document>

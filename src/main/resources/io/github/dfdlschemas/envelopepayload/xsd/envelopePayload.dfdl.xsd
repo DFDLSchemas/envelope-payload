@@ -1,98 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<schema
-  targetNamespace="urn:io.github.dfdlschemas.envelopepayload"
-  xmlns:ep="urn:io.github.dfdlschemas.envelopepayload"
-
-  xmlns:msHdr="urn:milstd2045DFDL"
-  xmlns:pcap="urn:pcap:2.4"
-
-  xmlns="http://www.w3.org/2001/XMLSchema"
+<xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
   xmlns:fn="http://www.w3.org/2005/xpath-functions"
+  xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+  xmlns:tcpHdr="urn:io.github.dfdlschemas.tcpMessage"
+  xmlns:xsat2="urn:com.owlcyberdefense.xsat2"
+  xsat2:rootDoc="true"
 >
+  <!--
+  This schema has no target namespace on purpose.
 
-  <import namespace="urn:milstd2045DFDL"
-          schemaLocation="/com/owlcyberdefense/mil-std-2045/xsd/milstd2045_application_header.dfdl.xsd"/>
-  <import namespace="urn:pcap:2.4"
-          schemaLocation="/com/tresys/pcap/xsd/pcap.dfdl.xsd"/>
+  It defines the root element named 'message' of the DFDL schema in no namespace for convenience.
+   -->
 
-  <annotation>
-    <appinfo source="http://www.ogf.org/dfdl/">
-      <dfdl:format ref="msHdr:msCommon"/>
-      <dfdl:defineVariable name="filename" type="xs:string"/>
-      <dfdl:defineVariable name="binaryFileKind" type="xs:string"/>
-    </appinfo>
-  </annotation>
 
-  <!-- We will use this payloadContentGroup group to define a tcpContentType complex type in another schema file -->
-  <group name="payloadContentGroup">
-    <sequence>
-      <element name="milstd2045_application_header" type="msHdr:milstd2045_application_header_type"/>
-      <element name="payload">
-        <complexType>
-          <choice dfdl:choiceDispatchKey='{
-               ../milstd2045_application_header/contents/message_handling_group/item[1]/umf/value
-            }'>
-            <element dfdl:choiceBranchKey="OK_Binary_File"
-                     name="binary_file" type="ep:binary_file_type"/>
-            <!--
-            This format only supports the mil-std-2045 header with binary_file payload type.
-            Any other value for the umf/value in the header will cause parsing to fail here
-            because there are no other choice branches.
-            -->
-          </choice>
-        </complexType>
-      </element>
-      <sequence dfdl:alignment="1" dfdl:alignmentUnits="bytes"/><!-- force realignment -->
-    </sequence>
-  </group>
+  <xs:import namespace="urn:io.github.dfdlschemas.tcpMessage"
+             schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/tcpMessageType.dfdl.xsd"/>
 
-  <complexType name="binary_file_type">
-    <sequence>
-      <!-- execute this assert before the enclosing sequence contents -->
-      <sequence>
-        <annotation>
-          <appinfo source="http://www.ogf.org/dfdl/">
-            <dfdl:assert message="Binary file, but file_name value field does not exist in the mil-std-2045 header.">{
-              fn:exists(../../milstd2045_application_header/contents/message_handling_group/item[1]/file_name[1]/value)
-              }
-            </dfdl:assert>
-          </appinfo>
-        </annotation>
-      </sequence>
-      <sequence>
-        <annotation>
-          <appinfo source="http://www.ogf.org/dfdl/">
-            <!--
-            binary file kind is decided by file extension:
-            * PCAP - a PCAP file
-            * TXT - a giant text string
+  <xs:annotation>
+    <xs:appinfo source="http://www.ogf.org/dfdl/">
+      <dfdl:format ref="tcpHdr:baseFormat"/>
+    </xs:appinfo>
+  </xs:annotation>
 
-            Note that the file_name field is just a file name with extension, no directory path components.
-            -->
-            <dfdl:newVariableInstance ref="ep:filename">{
-              fn:upper-case(../../milstd2045_application_header/contents/message_handling_group/item[1]/file_name[1]/value)
-              }
-            </dfdl:newVariableInstance>
-            <dfdl:newVariableInstance ref="ep:binaryFileKind">{
-              fn:substring($ep:filename, fn:string-length($ep:filename) - 2)
-              }
-            </dfdl:newVariableInstance>
-          </appinfo>
-        </annotation>
-        <choice dfdl:choiceDispatchKey='{ $ep:binaryFileKind }'>
-          <element dfdl:choiceBranchKey="CAP" name="pcap" type="pcap:PCAP"/>
-          <!--
-          For TXT files, they are delimited by end-of-data
-          -->
-          <element dfdl:choiceBranchKey="TXT" name="txt" type="xs:string"
-                   dfdl:alignment="1" dfdl:alignmentUnits="bytes"
-                   dfdl:encoding="utf-8" dfdl:lengthKind="delimited"/>
-        </choice>
-      </sequence>
-    </sequence>
-  </complexType>
+  <xs:element name="message" type="tcpHdr:messageType"/>
 
-</schema>
+</xs:schema>

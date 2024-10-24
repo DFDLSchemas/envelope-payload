@@ -15,7 +15,7 @@
 >
 
   <import namespace="urn:io.github.dfdlschemas.tcpMessage"
-          schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/tcpMessage.dfdl.xsd"/>
+          schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/tcpMessageType.dfdl.xsd"/>
 
   <import namespace="urn:milstd2045DFDL"
           schemaLocation="/com/owlcyberdefense/mil-std-2045/xsd/milstd2045_application_header.dfdl.xsd"/>
@@ -39,10 +39,9 @@
       <element name="value" type="hdr:tIntField"
                dfdl:length="20"
                dfdl:outputValueCalc="{
-                 dfdl:valueLength(/tcpHdr:message/data/content/payload, 'bytes')
+                 dfdl:valueLength(/message/data/content/payload, 'bytes')
                }"/>
     </sequence>
   </complexType>
 
 </schema>
-

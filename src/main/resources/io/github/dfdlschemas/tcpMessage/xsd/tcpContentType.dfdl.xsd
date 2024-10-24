@@ -13,7 +13,7 @@
 >
 
   <import namespace="urn:io.github.dfdlschemas.envelopepayload"
-          schemaLocation="/io/github/dfdlschemas/envelopepayload/xsd/envelopePayload.dfdl.xsd"/>
+          schemaLocation="/io/github/dfdlschemas/envelopepayload/xsd/payloadContentGroup.dfdl.xsd"/>
 
   <include schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/baseFormat.dfdl.xsd" />
 
