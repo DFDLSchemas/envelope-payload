@@ -18,7 +18,7 @@ daffodilPackageBinVersions := Seq(daffodilVersion.value)
 
 daffodilPackageBinInfos := {
   val configFile =
-    (Compile / resourceDirectory).value / "io" / "github" / "dfdlschemas" / "envelopepayload" / "config.xml"
+    (Compile / baseDirectory).value /"config.xml"
   Seq(
     DaffodilBinInfo(
       schema = "/io/github/dfdlschemas/envelopepayload/xsd/envelopePayload.dfdl.xsd",
