@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+         {
+            "request": "launch",
+            "type": "dfdl",
+            "name": "test_01",
+            "schema": {
+                "path": "${workspaceFolder}/../envelope-payload/src/main/resources/io/github/dfdlschemas/envelopepayload/xsd/envelopePayload.dfdl.xsd",
+                "rootName": null,
+                "rootNamespace": null
+            },
+            "data": "${workspaceFolder}/../envelope-payload/src/test/resources/io/github/dfdlschemas/envelopepayload/test_01.dat",
+            "debugServer": 4711,
+            "infosetFormat": "xml",
+            "infosetOutput": {
+                "type": "file",
+                "path": "${workspaceFolder}/../envelope-payload/target/infoset.xml"
+            },
+            "tdmlConfig": {
+                "action": "generate",
+                "name": "undefined",
+                "description": "undefined",
+                "path": "undefined"
+            },
+            "trace": true,
+            "stopOnEntry": true,
+            "useExistingServer": false,
+            "openDataEditor": false,
+            "openInfosetView": false,
+            "openInfosetDiffView": false,
+            "daffodilDebugClasspath": [
+                "${workspaceFolder}/../envelope-payload/src/main/resources",
+                "${workspaceFolder}/../tcpMessage/src/main/resources",
+                "${workspaceFolder}/../mil-std-2045/src/main/resources",
+                "${workspaceFolder}/../PCAP/src/main/resources",
+                "${workspaceFolder}/../ethernetIP/src/main/resources",
+                "${workspaceFolder}/../envelope-payload/lib_managed/jars/com.owlcyberdefense/dfdl-ethernetip_2.12/dfdl-ethernetip_2.12-1.4.0.jar"
+            ],
+            "dataEditor": {
+                "port": 9000,
+                "logging": {
+                    "file": "${workspaceFolder}/../envelope-payload/dataEditor-${omegaEditPort}.log",
+                    "level": "info"
+                }
+            },
+            "dfdlDebugger": {
+                "logging": {
+                    "file": "${workspaceFolder}/../envelope-payload/daffodil-debugger.log",
+                    "level": "INFO"
+                }
+            }
+        }
+    ]
+}

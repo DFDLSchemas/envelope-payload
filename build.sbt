@@ -4,7 +4,14 @@ organization := "io.github.dfdlschemas"
 
 version := "1.1.0"
 
-daffodilVersion := "3.9.0"
+//
+// Final assembly DFDL schemas should be setup to create a lib_managed baseDirectory
+// This makes it easy to provide tools access to the required dependency jar files.
+//
+retrieveManaged := true
+
+useCoursier := false // because of bug, retrieveManaged won't work without this
+
 
 libraryDependencies ++= Seq(
   "io.github.dfdlschemas" % "dfdl-tcpmessage" % "1.1.0",
