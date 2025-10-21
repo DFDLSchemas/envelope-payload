@@ -2,19 +2,26 @@
 
 This is an _assembly schema_ which glues together several _component schemas_. 
 
-These are a tcp message header schema, a second header schema, mil-std-2045, and a payload schema, PCAP. 
+These components are a tcp message header schema (tcpMessage), a second header schema 
+(mil-std-2045), and a 
+payload schema(PCAP). 
 
-This idiom, where an envelope or header is used in conjunction with a payload, and the two are defined separately, 
-illustrates how they can be mixed and matched, and reused without copying and modifying either of them. 
+This idiom, where an envelope or header is used in conjunction with a payload, yet the two are 
+defined separately, illustrates how they can be mixed and matched, and reused without 
+copying and modifying either of them.
+This provides a useful example of what we call DFDL _schema composition_ where an _assembly_
+_schema_ is built up from other _component schemas_.
 
-The component schemas are defined and testable in isolation separately. 
+The component schemas are defined and testable in isolation. 
+This schema includes tests of the schemas when assembled together. 
 
-This schema includes tests of the three when combined. 
+An additional wrinkle is that the PCAP DFDL schema uses yet another component schema (ethernetIP),
+so the PCAP schema is both itself an assembly schema (which assembles PCAP file structure with 
+ethernetIP as the schema for the captured packets in the file), and is also a 
+component for this envelope-payload schema. 
 
-An additional wrinkle is that the PCAP DFDL schema uses yet another component schema, ethernetIP.dfdl.xsd, so the PCAP 
-schema it both itself an assembly schema, and a component for this schema. 
-
-Furthermore, the ethernetIP schema defines and uses a Daffodil _layer plugin_ to compute the IPv4 packet checksum.
+Furthermore, the ethernetIP schema defines and uses a Daffodil _layer plugin_ to compute 
+the IPv4 packet checksum.
 This requires that the jar file containing that layer plugin code class files is on the classpath. 
 
 ## Using this DFDL Schema at the Daffodil Command Line Interface(CLI)
@@ -25,6 +32,15 @@ we can get the *sbt* tool to do the work for us.
 Executing this shell script (on linux) will define the `DAFFODIL_CLASSPATH` that the CLI needs:
 
     export DAFFODIL_CLASSPATH=$(sbt -batch -error "export fullClasspath")
+
+## Built-In Self Test Using 'sbt'
+
+This schema implements the best practice of having Built-In Self Test (BIST).
+Typing this command at the command shell will run internal tests. 
+
+    sbt test
+
+Messages are written to the console showing the success/failure of the tests.
 
 ## Using this DFDL Schema with the Daffodil VSCode Extension 
 
@@ -50,12 +66,19 @@ directory, which is populated by issuing an `sbt` command in the envelope-payloa
     sbt test
 
 or 
-    sbt updateClassifiers
 
+    sbt updateClassifiers
 
 ## Copyright and Licensing
 
-This software is copyright (c) 2024, Owl Cyber Defense.
+This software is copyright (c) 2024-2025, Owl Cyber Defense.
 
 It is licensed for your use under the terms of the ASF v2.0 license. See the LICENSE file 
 for further details.
+
+# Release Notes
+
+## Version 1.1.1 (2024-10-22)
+
+Updated to use latest version of each component, and to match
+the recommended DFDL Schema Style, and to use Daffodil v4.0.0.

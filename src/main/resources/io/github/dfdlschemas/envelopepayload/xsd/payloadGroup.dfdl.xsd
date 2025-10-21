@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- <![CDATA[
+TCP Message Payload DFDL Definition
 
+This file defines a group that is referenced from your `tcpContentType.dfdl.xsd`
+file.
+
+The group contains the definition of the TCP message contents a.k.a. the "payload",
+which you would customize for your data format.
+]]> -->
 <schema
-  targetNamespace="urn:io.github.dfdlschemas.envelopepayload"
-  xmlns:ep="urn:io.github.dfdlschemas.envelopepayload"
-
-  xmlns:msHdr="urn:milstd2045DFDL"
-  xmlns:pcap="urn:pcap:2.4"
-
   xmlns="http://www.w3.org/2001/XMLSchema"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:msHdr="urn:milstd2045DFDL"
+  xmlns:pcap="urn:owlcyberdefense.com:schema:dfdl:pcap"
   xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
   xmlns:fn="http://www.w3.org/2005/xpath-functions"
->
+  xmlns:ep="urn:dfdlSchemas.github.io:schema:dfdl:envelopepayload:ep"
+  targetNamespace="urn:dfdlSchemas.github.io:schema:dfdl:envelopepayload:ep">
 
   <import namespace="urn:milstd2045DFDL"
           schemaLocation="/com/owlcyberdefense/mil-std-2045/xsd/milstd2045_application_header.dfdl.xsd"/>
-  <import namespace="urn:pcap:2.4"
-          schemaLocation="/com/tresys/pcap/xsd/pcap.dfdl.xsd"/>
+  <import namespace="urn:owlcyberdefense.com:schema:dfdl:pcap"
+          schemaLocation="/com/tresys/pcap/xsd/pcap-type.dfdl.xsd"/>
 
   <annotation>
     <appinfo source="http://www.ogf.org/dfdl/">
@@ -26,8 +31,14 @@
     </appinfo>
   </annotation>
 
-  <!-- We will use this payloadContentGroup group to define a tcpContentType complex type in another schema file -->
-  <group name="payloadContentGroup">
+  <!--
+ The import and default format above are boilerplate.
+
+ This group is where the payload fields are defined.
+
+ We will use this payloadGroup group to define a tcpContentType complex type in another schema file
+ -->
+  <group name="payloadGroup">
     <sequence>
       <element name="milstd2045_application_header" type="msHdr:milstd2045_application_header_type"/>
       <element name="payload">

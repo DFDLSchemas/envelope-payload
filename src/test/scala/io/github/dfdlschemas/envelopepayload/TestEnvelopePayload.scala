@@ -9,7 +9,7 @@ object TestEnvelopePayload {
   lazy val runner = Runner("/io/github/dfdlschemas/envelopepayload/", "TestEnvelopepayload.tdml")
 
   @AfterClass def shutDown: Unit = {
-    runner.reset
+    runner.reset()
   }
 }
 
