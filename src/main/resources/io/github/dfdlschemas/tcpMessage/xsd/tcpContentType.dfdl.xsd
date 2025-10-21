@@ -1,37 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- <![CDATA[
+TCP Message Content Type Definition
 
+This file connects the `tcpMessageType.dfdl.xsd` to your
+schema's message field definitions.
+
+Change the xmlns:msg definition to the namespace of your assembly schema
+that is using the tcpMessage format as a component.
+
+Change the import to refer to the group that actually defines the fields
+of your message.
+
+Change the group reference inside the complex type definition to refer
+to your group definition.
+
+This DFDL schema file is included by the `tcpMessageType.dfdl.xsd `
+and defines the payload contained in the TCP message.
+
+This file must be named `tcpContentType.dfdl.xsd`, and
+must be in the `tcpHdr` namespace as above.
+
+It must be located in `io/github/dfdlschemas/tcpMessage/xsd`  directory
+so that it can be found by the include in the `tcpMessageType.dfdl.xsd` schema.
+]]> -->
 <schema
-  targetNamespace="urn:io.github.dfdlschemas.tcpMessage"
-  xmlns:tcpHdr="urn:io.github.dfdlschemas.tcpMessage"
-
-  xmlns:ep="urn:io.github.dfdlschemas.envelopepayload"
-
   xmlns="http://www.w3.org/2001/XMLSchema"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ep="urn:dfdlSchemas.github.io:schema:dfdl:envelopepayload:ep"
   xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
   xmlns:fn="http://www.w3.org/2005/xpath-functions"
->
-
-  <import namespace="urn:io.github.dfdlschemas.envelopepayload"
-          schemaLocation="/io/github/dfdlschemas/envelopepayload/xsd/payloadContentGroup.dfdl.xsd"/>
-
-  <include schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/baseFormat.dfdl.xsd" />
+  xmlns:tcpHdr="urn:dfdlschemas.github.io:schema:dfdl:tcpMessage:tcpHdr"
+  targetNamespace="urn:dfdlschemas.github.io:schema:dfdl:tcpMessage:tcpHdr">
 
   <annotation>
     <appinfo source="http://www.ogf.org/dfdl/">
-      <dfdl:format ref="tcpHdr:baseFormat"/>
+      <!--
+      To customize the message length you can change the defaultValue of this
+      variable which is the length of the message excluding the 4 bytes of the
+      tcpMessage length field itself.
+
+      You can also set this DFDL variable externally.
+
+      The TCP message will be considered malformed if the length exceeds this
+      value.
+
+      If parsing from a network stream, this prevents bad data from causing
+      the parsing of data to wait for
+      some absurdly large amount of data to arrive, when the messages can
+      never actually be that large.
+      -->
+      <dfdl:defineVariable name="maxLength" type="xs:unsignedInt"
+                           defaultValue="65535" external="true"/>
     </appinfo>
   </annotation>
+
+  <import namespace="urn:dfdlSchemas.github.io:schema:dfdl:envelopepayload:ep"
+          schemaLocation="/io/github/dfdlschemas/envelopepayload/xsd/payloadGroup.dfdl.xsd"/>
+
 
   <!--
   This is in a namespace/package owned by the tcpMessage schema, so we
   want to be putting as little into that namespace as possible.
-  Hence this type just redirects to a group in our own namespace.
+  Hence this type just redirects to a group in this schema's own namespace.
 
   The component schema for tcpMessage requires us to define this complex type.
   -->
   <complexType name="tcpContentType">
-    <group ref="ep:payloadContentGroup"/>
+    <group ref="ep:payloadGroup"/>
   </complexType>
 
 </schema>

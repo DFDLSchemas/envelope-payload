@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- <![CDATA[
+TCP Message Root Element DFDL Definition
 
+This file is almost entirely boilerplate, followed by a single
+line that defines your root element. You can customize its name.
+
+Any DFDL assembly schema that uses the tcpMessage component schema
+will have a file like this that has no namespace and just
+defines the root message element.
+]]> -->
 <xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:fn="http://www.w3.org/2005/xpath-functions"
   xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
-  xmlns:tcpHdr="urn:io.github.dfdlschemas.tcpMessage"
-  xmlns:xsat2="urn:com.owlcyberdefense.xsat2"
-  xsat2:rootDoc="true"
->
+  xmlns:tcpHdr="urn:dfdlschemas.github.io:schema:dfdl:tcpMessage:tcpHdr">
   <!--
-  This schema has no target namespace on purpose.
+  This schema has no target namespace because it defines global elements
+  and we prefer all elements to have no namespace whether global or local.
+  -->
 
-  It defines the root element named 'message' of the DFDL schema in no namespace for convenience.
-   -->
-
-
-  <xs:import namespace="urn:io.github.dfdlschemas.tcpMessage"
+  <xs:import namespace="urn:dfdlschemas.github.io:schema:dfdl:tcpMessage:tcpHdr"
              schemaLocation="/io/github/dfdlschemas/tcpMessage/xsd/tcpMessageType.dfdl.xsd"/>
 
   <xs:annotation>
@@ -24,6 +28,12 @@
     </xs:appinfo>
   </xs:annotation>
 
+  <!--
+  The above is all boilerplate.
+
+  This is the one line to modify to choose what you want
+  your  root element to be named, that is, if you don't want "message" as the name.
+  -->
   <xs:element name="message" type="tcpHdr:messageType"/>
 
 </xs:schema>
